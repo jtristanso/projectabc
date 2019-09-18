@@ -1,40 +1,47 @@
 <template>
-	<div class="header bg-magento">
-    <div class="header-section">
-      <span class="logo">
-        <a class="navbar-brand" v-on:click="redirect('/')">
-          <img src="../../../assets/img/logo_white.png" style="margin-bottom: 5px;">
-          <label>ID FACTORY</label>
-        </a>
-      </span>
-      <span class="menu">
-        <span class="navbar-menu-toggler-md">
-          <i class="fa fa-bars" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onclick="void(0)"></i>
+  <div class="header">
+    <div class="page-header">
+      <div class="header-section">
+        <span class="logo">
+          <a class="navbar-brand" v-on:click="redirect('/')">
+            <img src="../../../assets/img/logo_white.png" style="margin-bottom: 5px;">
+            <label v-html="config.APP_NAME_HTML"></label>
+          </a>
         </span>
-        <ul class="header-primary-menu">
-<!--           <li class="nav-item" v-on:click="redirect('/signup_partner')"><a class="nav-link">Be our Partner</a></li>
-          <li class="nav-item" v-on:click="redirect('/signup')"><a class="nav-link">Register</a></li> -->
-          <li class="nav-item btn btn-warning" v-on:click="redirect('/signup')"> Start Free 30 Day Trial</li>
-          <li class="nav-item" v-on:click="redirect('/login')"><a class="nav-link">Login</a></li>
+        <span class="menu">
+          <span class="navbar-menu-toggler-md">
+            <i class="fa fa-bars" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onclick="void(0)"></i>
+          </span>
+          <ul class="header-primary-menu">
+          <!--<li class="nav-item" v-on:click="redirect('/signup_partner')"><a class="nav-link">Be our Partner</a></li>
+            <li class="nav-item" v-on:click="redirect('/signup')"><a class="nav-link">Register</a></li> -->
+            <li class="nav-item btn btn-warning" v-on:click="redirect('/signup')"> Start Free 30 Day Trial</li>
+            <li class="nav-item btn btn-primary" style="margin-right:5px" v-on:click="redirect('/login')"><a class="nav-link">Login</a></li>
+          </ul>
+        </span>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <!-- <li class="nav-item" v-on:click="redirect('/signup_partner')"><a class="nav-link">Be our Partner</a></li> -->
+          <li class="nav-item" v-on:click="redirect('/signup')" data-toggle="collapse" data-target="#navbarSupportedContent"><a class="nav-link">Start Free 30 Day Trial</a></li>
+          <li class="nav-item" v-on:click="redirect('/login')" data-toggle="collapse" data-target="#navbarSupportedContent"><a class="nav-link">Login</a></li>
         </ul>
-      </span>
+      </div>
     </div>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <!-- <li class="nav-item" v-on:click="redirect('/signup_partner')"><a class="nav-link">Be our Partner</a></li> -->
-        <li class="nav-item" v-on:click="redirect('/signup')"><a class="nav-link">Start Free 30 Day Trial</a></li>
-        <li class="nav-item" v-on:click="redirect('/login')"><a class="nav-link">Login</a></li>
-      </ul>
-    </div>
+    <landing-banner></landing-banner>
   </div>
 </template>
-<style scoped>
+<style lang="scss"scoped>
+@import "~assets/style/colors.scss";
 .header{
+  background: transparent;
   width: 100%;
   float: left;
   min-height: 70px;
-  background: #00bff3;
   overflow-y: hidden;
+  background: url('~assets/img/image.png');
+  background-size: 100% auto;
+  background-repeat: no repeat;
 }
 .header-section{
   min-height: 50px;
@@ -44,11 +51,13 @@
   color: #fff;
   margin: 5px auto 5px auto;
 }
+
 .header-section .logo{
   width: 20%;
   float: left;
   height: 100%;
 }
+
 .header-section .menu{
   width: 80%;
   float: left;
@@ -74,7 +83,7 @@
 }
 .btn-white{
   background: #fff;
-  color: #00bff3 !important;
+  color: #22b173 !important;
 }
 .fa-bars{
   border: solid 1px #fff;
@@ -93,7 +102,7 @@
 }
 
 .header-primary-menu .nav-item .nav-link{
-  padding: .5rem;
+  padding: 0.1rem;
 }
 .header-primary-menu .nav-item a{
   color: #fff;
@@ -113,7 +122,7 @@
   color: #fff !important;
 }
 .navbar-toggler:hover{
-  color: #00bff3 !important;
+  color: #22b173 !important;
   background: #fff !important;
 }
 
@@ -156,6 +165,7 @@
     width: 80%;
     margin-top: 10px;
   }
+  
   .header-section  .menu{
     width: 20%;
     margin-top: 15px;
@@ -174,7 +184,7 @@
     position: absolute !important;
     z-index: 100000 !important;
     float: left;
-    border-bottom: solid 1px #00bff3;
+    border-bottom: solid 1px #22b173;
   }
   .navbar-nav{
     background: #fff !important;
@@ -186,12 +196,12 @@
   }
 
   .navbar-nav .nav-link:hover{
-    background: #00bff3;
-    color: #fff;
+    background: #22b173;
+    color: #111;
   }
 
   .navbar-nav .nav-link{
-    color: #00bff3;
+    color: #22b173;
   }
   .navbar-menu-toggler-md{
     width: 100%;
@@ -225,12 +235,17 @@
 <script>
 import ROUTER from '../../../router'
 import AUTH from '../../../services/auth'
+import CONFIG from '../../../config.js'
 export default {
   mounted(){
   },
   data(){
     return {
+      config: CONFIG
     }
+  },
+  components: {
+    'landing-banner': require('modules/home/Landing/Banner.vue')
   },
   methods: {
     redirect(parameter){

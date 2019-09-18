@@ -16,7 +16,7 @@
             <objects :objects="item.objects" :heightTemplate="parseInt(item.height)" :widthTemplate="parseInt(item.width)" v-if="item.objects !== null"></objects>
           </div>
           <ul>
-            <li v-on:click="show(item, 'editor')" style="border-left: 0px;">Editor</li>
+            <li @click="openEditor(item.code)" style="border-left: 0px;">Editor</li>
             <li>
               <div class="dropdown">
                 <label id="dropdownMenuSettingsButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -162,6 +162,14 @@ ul li:hover{
 #dropdownMenuSettingsButton:hover{
   cursor: pointer;
 }
+@media (max-width: 991px){
+  .item{
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
 </style>
 <script>
 import ROUTER from '../../router'
@@ -190,6 +198,10 @@ export default {
   methods: {
     makeActive(){
       this.$parent.makeActive(this.index)
+    },
+    openEditor(code){
+      AUTH.mode = 1
+      this.redirect('editor/v2/' + code)
     },
     redirect(parameter){
       ROUTER.push(parameter)

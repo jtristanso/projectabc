@@ -306,6 +306,13 @@ class CheckoutController extends APIController
       }
     }
 
+    public function updateMerchant(Request $request){
+      $data = $request->all();
+      $this->model = new Checkout();
+      $this->updateDB($data);
+      return $this->response();
+    }
+
     public function update(Request $request){
       $data = $request->all();
       $accountId = $data['account_id'];

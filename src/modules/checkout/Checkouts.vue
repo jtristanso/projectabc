@@ -1,80 +1,18 @@
 <template>
   <div class="holder">
     <span class="list" v-if="data !== null && data[0].items !== null">
-      <span class="items">
-        <span class="title">
-          <b>Your Items</b>
-        </span>
-        <span class="item" v-for="item, index in data[0].items" >
-          <span class="objects-holder" v-if="item.payload === 'template'">
-            <objects :objects="item.objects" v-if="item.objects !== null" :heightTemplate="parseInt(item.template.height)" :widthTemplate="parseInt(item.template.width)"></objects>
-          </span>
-          <span class="objects-holder" v-if="item.payload === 'employee' && item.employee.front_objects !== null && parseInt(item.employee.front_template_details.height) === config.PORTRAIT">
-            <objects :objects="item.employee.front_objects" :heightTemplate="parseInt(item.employee.front_template_details.height)" :widthTemplate="parseInt(item.employee.front_template_details.width)"></objects>
-          </span>
-          <span class="objects-holder" v-if="item.payload === 'employee' && item.employee.back_objects !== null && parseInt(item.employee.front_template_details.height) === config.PORTRAIT">
-            <objects :objects="item.employee.back_objects" :heightTemplate="parseInt(item.employee.front_template_details.height)" :widthTemplate="parseInt(item.employee.front_template_details.width)"></objects>
-          </span>
-          <span class="objects-holder" v-if="item.payload === 'employee' && item.employee.back_objects !== null && parseInt(item.employee.front_template_details.height) === config.LANDSCAPE">
-            <objects :objects="item.employee.front_objects" :heightTemplate="parseInt(item.employee.front_template_details.height)" :widthTemplate="parseInt(item.employee.front_template_details.width)"></objects>
-            <objects :objects="item.employee.back_objects" :heightTemplate="parseInt(item.employee.front_template_details.height)" :widthTemplate="parseInt(item.employee.front_template_details.width)"></objects>
-          </span>
-
-
-          <span class="objects-holder" v-if="item.payload === 'profile' && item.active_templates.front !== null && parseInt(item.active_templates.front.height) === config.LANDSCAPE">
-            <badge-profile :objects="item.active_templates.front.objects" :heightTemplate="parseInt(item.active_templates.front.height)" :widthTemplate="parseInt(item.active_templates.front.width)" :profile="item.profile"></badge-profile>
-            <badge-profile :objects="item.active_templates.back.objects" :heightTemplate="parseInt(item.active_templates.front.height)" :widthTemplate="parseInt(item.active_templates.front.width)" :profile="item.profile"></badge-profile>
-          </span>
-
-          <span class="objects-holder" v-if="item.payload === 'profile' && item.active_templates.front !== null && parseInt(item.active_templates.front.height) === config.PORTRAIT">
-            <badge-profile :objects="item.active_templates.front.objects" :heightTemplate="parseInt(item.active_templates.front.height)" :widthTemplate="parseInt(item.active_templates.front.width)" :profile="item.profile"></badge-profile>
-          </span>
-
-
-          <span class="objects-holder" v-if="item.payload === 'profile' && item.active_templates.back !== null && parseInt(item.active_templates.front.height) === config.PORTRAIT">
-            <badge-profile :objects="item.active_templates.back.objects" :heightTemplate="parseInt(item.active_templates.front.height)" :widthTemplate="parseInt(item.active_templates.front.width)" :profile="item.profile"></badge-profile>
-          </span>
-
-
-          <span class="objects-holder-full" v-if="item.payload === 'product' && item.product !== null">
-            <marketplace-product :data="item" :route="'checkout_items'"></marketplace-product>
-          </span>
-          <span class="details" v-if="item.payload === 'template' || (item.payload === 'employee' && (item.employee.back_objects === null || item.employee.front_objects === null))">
-              <label style="margin-top: 10px;" v-if="item.payload === 'employee'">
-                Price: Php {{item.employee.price}}
-                <i class="fa fa-trash pull-right text-danger delete" style="font-size: 24px; padding-right: 25px;" @click="remove(item.id)"></i>
-              </label>
-              <label style="margin-top: 10px;" v-if="item.payload === 'template'">
-                <b>{{item.template.title}}</b>
-                <i class="fa fa-trash pull-right text-danger delete" style="font-size: 24px; padding-right: 25px;" @click="remove(item.id)"></i>
-              </label>
-              <label v-if="item.payload === 'template'">Price Php {{item.template.price}}</label>
-              <label v-if="item.payload === 'template'">Cetegory: {{item.template.categories}}</label>
-              <label v-if="item.payload === 'template'">
-                <rating :payload="'template'" :payloadValue="item.payload_value"></rating>
-              </label>
-          </span>
-          <span class="two-details" v-if="item.payload === 'employee' && item.employee.back_objects !== null && item.employee.front_objects !== null">
-              <label style="margin-top: 10px;">
-                Price Php {{item.employee.price}}
-                <i class="fa fa-trash pull-right text-danger delete" style="font-size: 24px; padding-right: 25px;" @click="remove(item.id)"></i>
-              </label>
-          </span>
-
-
-          <span class="two-details" v-if="item.payload === 'profile' && item.active_templates.front !== null && item.active_templates.back !== null">
-              <label style="margin-top: 10px;">
-                Price Php {{item.price}}
-                <i class="fa fa-trash pull-right text-danger delete" style="font-size: 24px; padding-right: 25px;" @click="remove(item.id)"></i>
-              </label>
-          </span>
-
-        </span>
+      <span class="checkout-steps">
+        <ul>
+          <li v-for="item, index in steps" v-bind:class="{'hide-on-mobile': activeStep !== index}">
+           <label class="step-number" v-bind:class="{'bg-primary': activeStep === index, 'bg-warning': activeStep !== index}">{{index + 1}}</label>
+           <label class="step-title" v-bind:class="{'text-primary': activeStep === index, 'text-warning': activeStep !== index}">{{item.title}}</label>          </li>
+        </ul>
       </span>
-      <span class="sidebar pull-right">
-        <cards :item="data[0]" :method="method" v-if="data[0].payload === 'cards'"></cards>
-        <direct :item="data[0]" :method="method" v-if="data[0].payload === 'direct'"></direct>
-        <marketplace-checkout :item="data[0]" :method="method" v-if="data[0].payload === 'marketplace'"></marketplace-checkout>
+      <span class="step-viewer">
+        <cart-step :data="data" :method="method" v-if="activeStep === 0"></cart-step>
+        <printing-step :data="data[0]" :method="method" v-if="activeStep === 1"></printing-step>
+        <shipping-address :item="data[0]" :method="method" v-if="activeStep === 2"></shipping-address>
+        <payment-method :item="data[0]" :method="method" v-if="activeStep === 3"></payment-method>
       </span>
     </span>
     <checkout-empty v-if="data === null || data[0].items === null" :title="'You don\'t have items on your cart yet!'" :action="'Start checking out items now!'" :icon="'far fa-smile'" :iconColor="'text-primary'"></checkout-empty>
@@ -88,65 +26,58 @@
   margin-top: 25px;
   margin-bottom: 100px;
 }
+.checkout-steps{
+  width: 100%;
+  float: left;
+  margin-bottom: 25px;
+}
+.checkout-steps ul{
+  width: 100%;
+  float: left;
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+.checkout-steps ul li{
+  width: 25%;
+  float: left;
+  height: 50px;
+}
+.step-number{
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  line-height: 30px;
+  margin-top: 10px;
+  text-align: center;
+}
+.step-viewer{
+  width: 100%;
+  float: left;
+  min-height: 50px;
+  overflow-y: hidden;
+}
 .list{
   width: 100%;
   float: left;
   margin-top: 25px;
 }
-.items{
-  width: 70%;
-  float: left;
-  min-height: 50px;
-  overflow-y: hidden;
-}
-.items .title{
-  height: 50px;
-  width: 100%;
-  float: left;
-  line-height: 50px;
-  padding-left: 10px;
-  font-size: 24px;
-  border-bottom: solid 1px #eee;
-  color: #22b173;
-}
-.items .item{
-  width: 100%;
-  float: left;
-  min-height: 100px;
-  overflow-y: hidden;
-  border-bottom: solid 1px #eee;
-}
-.objects-holder-full{
-  float: left;
-  width: 100%;
-  height: 150px;
-}
-.objects-holder{
-  float: left;
-}
-.details{
-  float: left;
-  width: 70%;
-}
-.two-objects-holder{
-  float: left;
-  width: 80%;
-}
-.two-details{
-  float: left;
-  width: 40%;
-}
-.details label, .two-details label{
-  width: 100%;
-  float: left;
-}
-.sidebar{
-  width: 30%;
-  float: left;
-  min-height: 50px;
-  overflow-y: hidden;
+.hide-on-mobile{
+  display: block;
 }
 
+@media (max-width: 991px){
+  .items, .sidebar{
+    width: 100%;
+  }
+  .checkout-steps ul li{
+    width: 100%;
+    text-align: center;
+  }
+  .hide-on-mobile{
+    display: none;
+  }
+}
 </style>
 <script>
 import ROUTER from '../../router'
@@ -167,18 +98,17 @@ export default {
       data: null,
       method: null,
       success: null,
-      parter: null
+      parter: null,
+      steps: CONFIG.checkoutSteps,
+      activeStep: 0
     }
   },
   components: {
-    'objects': require('modules/object/Objects.vue'),
-    'badge-profile': require('modules/object/BadgeProfile.vue'),
-    'rating': require('components/increment/generic/rating/Ratings.vue'),
-    'cards': require('modules/checkout/Cards.vue'),
-    'direct': require('modules/checkout/Direct.vue'),
-    'marketplace-checkout': require('modules/checkout/Marketplace.vue'),
-    'marketplace-product': require('components/increment/ecommerce/marketplace/CheckoutItem.vue'),
-    'checkout-empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue')
+    'checkout-empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
+    'cart-step': require('modules/checkout/CartStep.vue'),
+    'printing-step': require('modules/checkout/Printing.vue'),
+    'shipping-address': require('components/increment/ecommerce/shipping/CheckoutShipping.vue'),
+    'payment-method': require('components/increment/ecommerce/payment/PaymentMethod.vue')
   },
   methods: {
     redirect(parameter){
@@ -216,6 +146,16 @@ export default {
         AUTH.checkAuthentication(null)
         this.retrieve()
       })
+    },
+    setNextActiveStep(){
+      if(this.activeStep < 3){
+        this.activeStep++
+      }
+    },
+    setPreviousActiveStep(){
+      if(this.activeStep > 0){
+        this.activeStep--
+      }
     }
   }
 }

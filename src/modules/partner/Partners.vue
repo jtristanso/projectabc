@@ -1,18 +1,10 @@
 <template>
   <div class="partner-holder">
     <div class="filter">
-      <div class="input-group">
-        <span class="input-group-addon">Filter By</span>
-        <select class="form-control" v-model="filterValue" @change="retrieve()">
-          <option value="name">Name</option>
-          <option value="address">Location</option>
-        </select>
-        <span class="input-group-addon">Search</span>
-        <input type="text" class="form-control" v-model="searchValue" @keyup.enter="retrieve()" placeholder="Search here...">
-      </div>
+      <partner-filter></partner-filter>
     </div>
     <div class="partner-list" v-if="data !== null">
-      <partner v-for="item, index in data" v-if="data !==null" :item="item" :key="item.id" :index="index"></partner>
+      <partner v-for="item, index in data" v-if="data !==null" :item="item" :key="item.id" :index="index" :printingButton="false"></partner>
     </div>
     <empty v-if="data === null" :title="'No printing partners available!'" :action="'Please be back soon.'">
     </empty>
@@ -20,16 +12,17 @@
 </template>
 <style scoped>
 .partner-holder{
-  width: 70%;
+  width: 100%;
   float: left;
   margin-top: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .filter{
   width: 100%;
   float: left;
   height: 45px;
 }
-
 .form-control{
   height: 45px !important;
 }
@@ -46,10 +39,23 @@
   background: #028170 !important;
   color: #fff !important;
 }
-
 .partner-list{
   width: 100%;
   float: left;
+}
+@media (max-width: 991px){
+  .partner-holder{
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 400px){
+  .partner-holder{
+    width: 100%;
+    float: left;
+    margin-top: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }
 </style>
 <script>
@@ -75,6 +81,7 @@ export default {
   },
   components: {
     'partner': require('modules/partner/Partner.vue'),
+    'partner-filter': require('modules/partner/Filter.vue'),
     'empty': require('components/increment/generic/empty/Empty.vue')
   },
   methods: {

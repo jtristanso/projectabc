@@ -70,7 +70,7 @@
           currency="PHP"
           :client="paypal"
           :button-style="myStyle"
-          env="sandbox"
+          :env="paypalStatus"
           @payment-completed="paypalCompleted($event)"
           @payment-cancelled="paypalCancelled($event)"
           @payment-authorized="paypalAuthorized($event)">
@@ -156,14 +156,8 @@ export default {
       errorMessage: null,
       coupon: null,
       discount: null,
-      paypal: {
-        sandbox: 'Ad3i7TApZLrGnTTF_BWrXZYFlz1sDUMRjWGeGn6ED8POGj1gp6Z43n4ph31ASUqlPtZguFqR7KMp2ZqH',
-        production: 'Ad3i7TApZLrGnTTF_BWrXZYFlz1sDUMRjWGeGn6ED8POGj1gp6Z43n4ph31ASUqlPtZguFqR7KMp2ZqH'
-      },
-      credentials: {
-        sandbox: 'Ad3i7TApZLrGnTTF_BWrXZYFlz1sDUMRjWGeGn6ED8POGj1gp6Z43n4ph31ASUqlPtZguFqR7KMp2ZqH',
-        production: 'Ad3i7TApZLrGnTTF_BWrXZYFlz1sDUMRjWGeGn6ED8POGj1gp6Z43n4ph31ASUqlPtZguFqR7KMp2ZqH'
-      },
+      paypal: CONFIG.paypal,
+      paypalStatus: CONFIG.IS_DEV ? 'sandbox' : 'production',
       myStyle: {
         label: 'checkout',
         size: 'responsive',

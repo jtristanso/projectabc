@@ -3,7 +3,7 @@
     <div class="system-header">
       <a class="navbar-brand" v-on:click="redirect('dashboard')">
         <img src="../../assets/img/logo_white.png" class="logo-brand">
-        <label class="navbar-brand hide-on-mobile"><b class="text-white">ID FACTORY</b></label>
+        <label class="navbar-brand hide-on-mobile" v-html="config.APP_NAME_HTML"></label>
       </a>
     </div>
     <nav class="header-navbar">
@@ -82,15 +82,17 @@
             <span class="nav-item" data-toggle="dropdown" id="notifications" aria-haspopup="true" aria-expanded="false">
               <span>
                 <i class="fas fa-envelope" style="font-size: 22px;margin-top: 2px;"></i>
-                <!-- <label class="badge badge-danger" style="margin-left: -15px;" v-if="parseInt(user.messages.current) > 0">{{user.messages.current}}</label> -->
+                <label class="badge badge-danger" style="margin-left: -15px;" v-if="parseInt(user.messages.totalUnreadMessages) > 0">{{user.messages.totalUnreadMessages}}</label>
               </span>
-              <span class="dropdown-menu dropdown-menu-right dropdown-menu-notification" aria-labelledby="notifications">
+              <span class="dropdown-menu dropdown-menu-right dropdown-menu-notification" aria-labelledby="notifications" v-if="user.messages.data !== null">
                 <span class="notification-header" @click="redirect('/messenger')">
-                  View Messages
+                  Recent
+                  <label class="badge badge-danger">{{user.messages.totalUnreadMessages}}</label>
                 </span>
-                <span class="notification-item" v-for="item, index in user.messages.data" v-if="user.messages.data !== null" @click="redirect('/messenger/' + item.title.username)">
+                <span class="notification-item" v-for="item, index in user.messages.data" v-if="user.messages.data !== null && item !== null" @click="redirect('/messenger/' + item.title.username)">
                   <span class="notification-title">
-                        {{item.title.username}}
+                    {{item.title.username}}
+                    <label class="badge badge-danger" style="margin-left: 5px;" v-if="parseInt(item.total_unread_messages) > 0">{{item.total_unread_messages}}</label>
                   </span>
                   <span class="notification-description">{{item.description}}</span>
                   <span class="notification-date">Posted on {{item.created_at_human}}</span>
@@ -111,7 +113,9 @@
                   Notifications
                 </span>
                 <span class="notification-item" v-for="item, index in user.notifications.data" v-if="user.notifications.data !== null && item.status !== 'ac_viewed'" v-on:click="executeNotifItem(item)">
-                  <span class="notification-title">{{item.title}}</span>
+                  <span class="notification-title">
+                    {{item.title}}
+                  </span>
                   <span class="notification-description">{{item.description}}</span>
                   <span class="notification-date">Posted on {{item.created_at}}</span>
                 </span>
@@ -152,7 +156,8 @@
    </div>
   </div>
 </template>
-<style scoped>
+<style lang="scss" scoped>
+@import "~assets/style/colors.scss";
 
 /*
         BODY
@@ -204,14 +209,14 @@ body{
     height: 50px;
     font-size: 24px;
     width: 18%;
-    background: #028170;
+    background: $darkPrimary;
     text-align: center;
     position: fixed;
     z-index: 6000;
   }
   
   .header-navbar{
-    background: #22b173;
+    background: $primary;
     height: 50px;
     float: left;
     width: 82%;
@@ -253,7 +258,7 @@ body{
 
   .header-navbar-nav:hover{
     cursor: pointer;
-    background: #028170;
+    background: $primary;
   }
 
 
@@ -318,7 +323,7 @@ body{
 }
 
 .nav-item:hover{
-  background: #028170;
+  background: $darkPrimary;
   cursor: pointer;
 }
 
@@ -350,7 +355,7 @@ body{
 .dropdown-item i{
   font-size: 14px !important;
   padding-right: 10px !important;
-  color: #028170 !important;
+  color: $primary !important;
 }
 .dropdown-item label{
   font-size: 14px !important;
@@ -394,7 +399,7 @@ body{
   display: inline-block;
   float: left;
   font-weight: 550;
-  color: #22b173;
+  color: $primary;
 }
 .dropdown-item-button{
   height: 50px;
@@ -432,11 +437,11 @@ body{
 }
 .navbar-menu-toggler-md:hover{
   cursor: pointer;
-  background: #22b173;
+  background: $primary;
 }
 
 .active-menu{
-  background: #22b173;
+  background: $primary;
 }
 
 
@@ -451,7 +456,7 @@ body{
   float: left;
   width: 100%;
   height: 80px;
-  color: #22b173;
+  color: $primary;
 }
 .profile-image-holder-header{
   width: 100%;
@@ -747,6 +752,13 @@ export default {
       }
     },
     logOut(){
+      let parameter = {
+        account_id: this.user.userID,
+        status: 0
+      }
+      this.APIRequest('account_login_status/update', parameter).then(response => {
+        //
+      })
       AUTH.deaunthenticate()
     },
     redirect(parameter){

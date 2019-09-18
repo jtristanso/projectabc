@@ -99,6 +99,7 @@ class MessengerGroupController extends APIController
           ->join('messenger_groups as T2', 'T2.id', '=', 'T1.messenger_group_id')
           ->where('T1.account_id', '=', $accountId)
           ->where('T2.payload', '!=', 'support')
+          ->orderBy('T2.updated_at', 'DESC')
           ->select('T2.*')
           ->get();
         $result = json_decode($result, true);
@@ -121,7 +122,7 @@ class MessengerGroupController extends APIController
         }
 
       }else if($accountType == 'user' || $accountType == 'USER'){
-        $result = MessengerGroup::where('account_id', '=', $accountId)->where('payload', '!=',  'support')->get();
+        $result = MessengerGroup::where('account_id', '=', $accountId)->where('payload', '!=',  'support')->orderBy('updated_at', 'DESC')->get();
 
         if(sizeof($result) > 0){
           $i = 0;

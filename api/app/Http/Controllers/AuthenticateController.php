@@ -53,6 +53,7 @@ class AuthenticateController extends Controller
     }
     if(sizeof($result) > 0){
       app('App\Http\Controllers\NotificationSettingController')->manageNotification($result[0]['id']);
+      app('App\Http\Controllers\AccountLoginStatusController')->updateByParams($result[0]['id'], 1);
     }
     try {
       // verify the credentials and create a token for the user

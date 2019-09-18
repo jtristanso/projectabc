@@ -16,10 +16,9 @@
         "laravel/tinker": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "paypal/rest-api-sdk-php": "*",
-        "pusher/pusher-php-server": "^3.4",
+        "pusher/pusher-php-server": "^4.0",
         "stripe/stripe-php": "^6.22",
-        "tymon/jwt-auth": "0.5.*",
-        "werneckbh/laravel-qr-code": "^0.1.3"
+        "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
@@ -37,6 +36,7 @@
             "Increment\\Common\\Comment\\": "packages/increment/common/comment/src/",
             "Increment\\Common\\Rating\\": "packages/increment/common/rating/src/",
             "Increment\\Common\\Image\\": "packages/increment/common/image/src/",
+            "Increment\\Common\\Tutorial\\": "packages/increment/common/tutorial/src/",
             "Increment\\Marketplace\\": "packages/increment/marketplace/src/",
             "Increment\\Messenger\\": "packages/increment/messenger/src/",
             "Increment\\Plan\\": "packages/increment/plan/src/",

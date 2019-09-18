@@ -70,7 +70,7 @@
       </div>
     </div>
     <div class="employee-list" v-if="data !== null && viewIcon === 'table'">
-      <table class="table table-custom table-hover table-bordered">
+      <table class="table table-custom table-hover table-bordered table-responsive">
         <thead>
           <tr>
             <td>Email</td>
@@ -279,6 +279,11 @@
 .table-custom td{
   padding-top: 0px !important;
   padding-bottom: 0px !important;
+}
+@media (max-width: 991px){
+  .employee-list td img{
+    display: none;
+  }
 }
 </style>
 <script>

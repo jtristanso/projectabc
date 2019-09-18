@@ -9,7 +9,8 @@
 </template>
 <script>
 </script>
-<style scoped>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
 .customModal{
   position: fixed;
   background: rgba(254, 254, 254, 0);
@@ -34,7 +35,7 @@
   margin-left: 40%;
   margin-right: 40%;
   text-align: center;
-  color: #22b173;
+  color: $primary;
   line-height: 30vh;
   border-radius: 5px;
 }

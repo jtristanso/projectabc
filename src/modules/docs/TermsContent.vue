@@ -12,7 +12,7 @@
         When you register, you confirm that all the information you provided is true, complete, and accurate.
         Your submitted information will be reviewed accordingly, and after they have passed the verification, you will be provided access.
         If you do not verify your account, you will not be able to use some of the services provided.
-        ID Factory allows you to change your email address, when you verify your account.
+        ID Factory allows you to replace your email address, when you have entered a wrong email address and would still want to verify your account.
       </li>
       <li><strong>Service Provisions</strong></li>
       <li>
@@ -95,7 +95,7 @@
     </ul>
   </div>
 </template>
-<style scope>
+<style scoped>
 .guide-holder{
   margin-top:22px;
   width:90%;

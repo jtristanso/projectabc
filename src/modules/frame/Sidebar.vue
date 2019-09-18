@@ -14,7 +14,7 @@
                 </span>
                 <i v-bind:class="toggleSidebar + ' pull-right'" aria-hidden="true" v-on:click="changeToggleSidebarIcon()" id="toggleIcon"></i>
             </li>
-            <li v-for="item, index in menu" v-bind:class="{ 'active-menu': item.flag === true }" v-on:click="setActive(index)" v-if="(((item.users === user.type || item.users === 'ALL') && user.type !== 'ADMIN') || user.type === 'ADMIN') && menuFlag === true" class="menu-holder">
+            <li v-for="(item, index) in menu" :key="index" v-bind:class="{ 'active-menu': item.flag === true }" v-on:click="setActive(index)" v-if="(((item.users === user.type || item.users === 'ALL') && user.type !== 'ADMIN') || user.type === 'ADMIN') && menuFlag === true" class="menu-holder">
               <i v-bind:class="item.icon" class=" visible"></i> 
               <label>{{item.description}}</label>
               <ul class="sub-menu" v-if="item.subMenu !== null">
@@ -57,7 +57,8 @@
     </div>
   </div>  
 </template>
-<style>
+<style lang="scss">
+@import "~assets/style/colors.scss";
 .main-sidebar, .content-holder{  
   min-height: 200px;
   overflow: hidden;
@@ -67,6 +68,7 @@
 }
 .main-sidebar{
   overflow-y: hidden;
+  z-index: 10000;
 }
 
 .sidebar-menu{
@@ -89,12 +91,12 @@
 
 .header i{
   font-size: 24px;
-  color: #22b173;
+  color: $primary;
 }/*-- toggle-sidebar i --*/
 
 .header i:hover{
   cursor: pointer;
-  color: #028170;
+  color: $primary;
 }
 
 .profile-photo{
@@ -155,7 +157,7 @@
 
 .menu-holder:hover, .menu-holder i:hover, .menu-holder label:hover, .menu-holder-hidden i:hover{
   cursor: pointer;
-  color: #22b173;
+  color: $primary;
 }
 
 .sub-menu{
@@ -171,11 +173,11 @@
   height: 35px;
   line-height: 35px;
   margin-left: 5%;
-  color: #212529;
+  color: $primary;
 }
 
 .active-menu{
-  color: #22b173 !important;
+  color: $primary !important;
 }
 
 .menu-holder-hidden{
@@ -226,7 +228,7 @@
 }
 
 /*-------------- Medium Screen for Tablets  --------------*/
-@media screen (min-width: 992px), screen and (max-width: 1199px){
+@media (min-width: 992px) and (max-width: 1199px){
   .main-sidebar{
     width: 23%;
     float: left;
@@ -298,7 +300,7 @@
     position: absolute;
     top:0;
     left: 0;
-    z-index: 10;
+    z-index: 30;
     background-color: rgba(0,0,0,0.5);
     margin-top: 50px;
   }
@@ -409,10 +411,11 @@ export default {
       config: CONFIG,
       menu: [
       // {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard'},
-        {users: 'ALL', description: 'Templates', icon: 'fas fa-file', path: 'templates', flag: true, subMenu: null},
+        // {users: 'ALL', description: 'Templates', icon: 'fas fa-file', path: 'templates', flag: true, subMenu: null},
         // {users: 'ALL', description: 'Data Entries', icon: 'fas fa-users', path: 'data_entries', flag: false, subMenu: null},
-        {users: 'ALL', description: 'Profiles', icon: 'fas fa-users', path: 'profiles', flag: false, subMenu: null},
-        {users: 'ALL', description: 'Images', icon: 'fas fa-image', path: 'images', flag: false, subMenu: null},
+        // {users: 'ALL', description: 'Profiles', icon: 'fas fa-users', path: 'profiles', flag: false, subMenu: null},
+        {users: 'ALL', description: 'Files', icon: 'fas fa-folder', path: 'files', flag: false, subMenu: null},
+        // {users: 'ALL', description: 'Tutorials', icon: 'fas fa-image', path: 'tutorials', flag: false, subMenu: null},
         {users: 'USER', description: 'Find Printing', icon: 'fas fa-print', path: 'printings', flag: false, subMenu: null},
         {users: 'USER', description: 'Marketplace', icon: 'fas fa-store', path: 'marketplace', flag: false, subMenu: null},
         {users: 'PARTNER', description: 'My Store', icon: 'fas fa-store', path: 'marketplace', flag: false, subMenu: [{users: 'PARTNER', description: 'Marketplace', icon: 'fas fa-store', path: 'marketplace', flag: false}, {users: 'PARTNER', description: 'Products', icon: 'fa fa-shopping-cart', path: 'products', flag: false}, {users: 'PARTNER', description: 'Orders', icon: 'fa fa-file', path: 'orders', flag: false}, {users: 'PARTNER', description: 'Coupons', icon: 'fa fa-tags', path: 'coupons', flag: false}]
@@ -420,10 +423,10 @@ export default {
       ],
       menuOff: [
       // {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard'},
-        {users: 'ALL', description: 'Templates', icon: 'fas fa-file', path: 'templates', flag: false, subMenu: null},
+        // {users: 'ALL', description: 'Templates', icon: 'fas fa-file', path: 'templates', flag: false, subMenu: null},
         // {users: 'ALL', description: 'Data Entries', icon: 'fas fa-users', path: 'data_entries', flag: false, subMenu: null},
-        {users: 'ALL', description: 'Profiles', icon: 'fas fa-users', path: 'profiles', flag: false, subMenu: null},
-        {users: 'ALL', description: 'Images', icon: 'fas fa-image', path: 'images', flag: false, subMenu: null},
+        // {users: 'ALL', description: 'Profiles', icon: 'fas fa-users', path: 'profiles', flag: false, subMenu: null},
+        {users: 'ALL', description: 'Files', icon: 'fas fa-folder', path: 'files', flag: false, subMenu: null},
         {users: 'USER', description: 'Find Printing', icon: 'fas fa-print', path: 'printings', flag: false, subMenu: null},
         {users: 'ALL', description: 'Marketplace', icon: 'fas fa-store', path: 'marketplace', flag: false, subMenu: null},
         {users: 'PARTNER', description: 'Products', icon: 'fa fa-shopping-cart', path: 'products', flag: false, subMenu: null},

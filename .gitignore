@@ -13,3 +13,5 @@ node_modules/
 src/config.js
 api/.env
 dist/
+package-lock.json
+vendor

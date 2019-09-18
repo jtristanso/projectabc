@@ -11,6 +11,7 @@ use App\Mail\LoginEmail;
 use App\Mail\OtpEmail;
 use App\Mail\NotifyReferrer;
 use App\Mail\Receipt;
+use App\Mail\NewMessage;
 use Illuminate\Http\Request;
 
 class EmailController extends APIController
@@ -88,6 +89,16 @@ class EmailController extends APIController
             Mail::to($user['email'])->send(new Receipt($user, $data[0]));
             return true;
         }
+        return false;
+    }
+
+    public function newMessage($accountId){
+        // $online = app('Increment\Account\Http\AccountOnlineController')->getStatus($accountId);
+        // $user = $this->retrieveAccountDetails($accountId);
+        // if($user != null && $online == false){
+        //     Mail::to($user['email'])->send(new NewMessage($user));
+        //     return true;
+        // }
         return false;
     }
 

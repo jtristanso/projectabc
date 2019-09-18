@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>ID Factory</title>
+    <title>PaPrint</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
@@ -149,7 +149,32 @@
         cursor: pointer;
       }
 
-      @media screen (min-width: 200px), screen and (max-width: 991px){
+      .form-control{
+        font-size: 13px !important;
+      }
+
+      
+      .no-hover:hover{
+        cursor: default !important;
+      }
+
+      .modal-dialog{
+        margin-top: 75px !important;
+      }
+
+      .title-input{
+        height: 40px;
+        line-height: 40px;
+        border: none;
+        background: transparent;
+        font-size: 13px;
+        min-width: 50px;
+        overflow-x: hidden;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+       @media (max-width: 992px){
         .module-header .title{
           width: 100%;
         }
@@ -168,165 +193,9 @@
           width: 100%;
           text-align: center;
         }
-      }
-      .page-link{
-        color: #3f0050;
-        background: inherit;
-      }
-      .empty-table:hover{
-        cursor: pointer;
-        color: white !important;
-        background: #3f0050;
-      }
-      .page-link:hover{
-        cursor: pointer;
-        background: #3f0050 !important;
-        color: white !important;
-      }
-      .text-primary{
-        color: #22b173 !important;
-      }
-      .text-gray{
-        color: #555 !important;
-      }
-
-      .text-yellow{
-        color: #FCCD04 !important;
-      }
-      .action-link:hover{
-        color: #028170 !important;
-        cursor: pointer;
-      }
-      .text-underline:hover{
-        cursor: pointer;
-        text-decoration: underline;
-      }
-      .breadcrumb{
-        color: #028170;
-        background: inherit !important;
-        border: none !important;
-      }
-      .breadcrumb:hover{
-        cursor: pointer;
-        text-decoration: underline; 
-      }
-      td i{
-        font-size: 16px !important;
-        padding-right: 10px;
-      }
-      td i:hover{
-        cursor: pointer;
-        color: #3f0050 !important; 
-      }
-      .bg-primary{
-        background: #22b173 !important; 
-      }
-
-      .bg-magento{
-        background: #22b173 !important; 
-      }
-
-      .bg-secondary{
-        background: #028170 !important; 
-      }
-
-
-      /*
-
-      BUTTONS
-
-      */
-      .btn-primary{
-        background: #22b173;
-        border-color: #22b173;
-        height: 35px !important;
-      }
-
-      .btn-primary:hover{
-        background: #028170;
-        border-color: #028170;
-      }
-
-      .btn-secondary{
-        background: #028170;
-        border-color: #028170;
-        height: 35px !important;
-      }
-
-      .btn-secondary:hover{
-        background: #22b173;
-        border-color: #22b173;
-      }
-
-      .btn-danger{
-        background: #dc3545 !important;
-        height: 35px !important;
-      }
-
-      .btn-danger:hover{
-        background: #ff0000;
-        border-color: #ff0000;
-      }
-
-      .btn-warning{
-        background: #FCCD04 !important;
-        height: 35px !important;
-      }
-
-      .bg-green{
-        background: #028170;
-        color: #fff;
-      }
-
-      .bg-gray{
-        background: #555;
-        color: #fff;
-      }
-      .bg-magento{
-        background: #22b173;
-      }
-      .text-green{
-        color: #028170 !important;
-      }
-
-      .text-white{
-        color: #fff !important;
-      }
-
-      .text-gray{
-        color: #555;
-      }
-
-      .bordered-hover-primary:hover{
-        border:  solid 1px #22b173;
-      }
-      /*
-
-        Question View
-
-      */
-      .answer label{
-        font-weight: 700;
-        color: #000;
-      }
-
-      /*
-
-        Questions Templates 
-
-      */
-      .fa-square{
-        color: #3f0050;
-      }
-      .fa-dot-circle{
-        color: #3f0050;
-      }
-      .no-hover:hover{
-        cursor: default !important;
-      }
-
-      .modal-dialog{
-        margin-top: 75px !important;
+        .form-control{
+          font-size: 16px !important;
+        }
       }
 
     </style>

@@ -11,7 +11,9 @@
         <li class="title"><b>Privacy and Terms</b></li>
         <li class="link"><a @click="redirect('/terms_and_conditions')">Terms & Conditions</a></li>
         <li class="link"><a @click="redirect('/privacy')">Privacy Policy</a></li>
-        <li class="link"><a @click="openModal('#termsAndConditionsModal')">Billing Terms</a></li>
+        <li class="link"><a @click="redirect('/billing_terms')">Billing Terms</a></li>
+        <li class="link"><a @click="redirect('/return_policy')">Return Policy</a></li>
+        <li class="link"><a @click=""></a></li>
 <!--         <li class="link" @click="redirect('/refer_register/support@idfactory.ph/B0Z9DAKFGXHOLV8YPEIWCSRM53Q27T14N6UJ')">Referral</li>
         <li class="link" @click="redirect('/login_verification/kennette/IDF-Y89ALBGKXEMQ176HWCZ5RJ2UVOID')">Verification</li>
         <li class="link" @click="redirect('/reset_password/kennette/IDF-Y89ALBGKXEMQ176HWCZ5RJ2UVOID')">Reset</li> -->
@@ -66,7 +68,6 @@ footer {
   float: left;
   overflow-y: hidden;
   background: #e9e9e9;
-  margin-top: 50px;
 }
 .footer{
   width: 80%;

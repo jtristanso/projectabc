@@ -84,12 +84,14 @@ Route::post($route.'/retrieve', "PartnerController@retrieve");
 
 //Templates
 $route = env('PACKAGE_ROUTE', '').'/templates';
-Route::post($route.'/create', "TemplateController@create");
-Route::post($route.'/retrieve', "TemplateController@retrieve");
-Route::post($route.'/update', "TemplateController@update");
-Route::post($route.'/delete', "TemplateController@delete");
-Route::get($route.'/test', 'TemplateController@test');
-Route::post($route.'/retrieve_templates_only', 'TemplateController@retriveTemplateOnly');
+$controller = 'TemplateController@';
+Route::post($route.'/create', $controller."create");
+Route::post($route.'/retrieve',  $controller."retrieve");
+Route::post($route.'/update',  $controller."update");
+Route::post($route.'/delete',  $controller."delete");
+Route::get($route.'/test',  $controller.'test');
+Route::post($route.'/retrieve_templates_only',  $controller.'retriveTemplateOnly');
+Route::post($route.'/retrieve_categories',  $controller.'retrieveCategories');
 
 
 //Objects
@@ -153,6 +155,7 @@ Route::post($route.'/create', "CheckoutController@create");
 Route::post($route.'/retrieve', "CheckoutController@retrieve");
 Route::post($route.'/retrieve_summary', "CheckoutController@retrieveSummary");
 Route::post($route.'/update', "CheckoutController@update");
+Route::post($route.'/update_merchant', "CheckoutController@updateMerchant");
 Route::post($route.'/update_remove_merchant', "CheckoutController@updateRemoveMerchant");
 Route::post($route.'/update_status', "CheckoutController@updateStatus");
 Route::post($route.'/delete', "CheckoutController@delete");
@@ -249,3 +252,27 @@ $route = env('PACKAGE_ROUTE', '').'/custom_messenger_groups/';
 $controller = 'MessengerGroupController@';
 Route::post($route.'create', $controller."create");
 Route::post($route.'retrieve', $controller."retrieve");
+
+// Account Login Status Controller
+$route = env('PACKAGE_ROUTE', '').'/account_login_status/';  
+$controller = 'AccountLoginStatusController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'update', $controller."update");
+Route::post($route.'delete', $controller."delete");
+
+// Educations Controller
+$route = env('PACKAGE_ROUTE', '').'/educations/';  
+$controller = 'EducationController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'update', $controller."update");
+Route::post($route.'delete', $controller."delete");
+
+// Works Controller
+$route = env('PACKAGE_ROUTE', '').'/works/';  
+$controller = 'WorkController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'update', $controller."update");
+Route::post($route.'delete', $controller."delete");

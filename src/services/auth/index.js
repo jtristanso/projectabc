@@ -7,6 +7,18 @@ import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 import Config from '../../config.js'
 export default {
+  audio: {
+    status: 0,
+    timeDisplay: `00:00:00`,
+    seconds: 0,
+    minutes: 0,
+    hours: 0,
+    timer: null,
+    receiverId: null,
+    senderUser: null,
+    receiverUser: null
+  },
+  mode: 0,
   user: {
     userID: 0,
     username: '',
@@ -24,8 +36,7 @@ export default {
     notifSetting: null,
     messages: {
       data: null,
-      current: 1,
-      prevCurrent: null
+      totalUnreadMessages: 0
     }
   },
   messenger: {
@@ -216,7 +227,9 @@ export default {
     }
     vue.APIRequest('messenger_groups/retrieve_summary', parameter).then(response => {
       this.user.messages.data = response.data
+      this.user.messages.totalUnreadMessages = response.total_unread_messages
     })
+    console.log(this.user.messages.data)
   },
   startNotifTimer(accountId){
     if(this.notifTimer.timer === null){
@@ -251,7 +264,7 @@ export default {
     ROUTER.push(path)
   },
   validateEmail(email){
-    let reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    let reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+.[a-zA-Z0-9]*$/
     if(reg.test(email) === false){
       return false
     }else{
@@ -282,7 +295,7 @@ export default {
     let plan = data[0].plan
     let notifSetting = data[0].notification_settings
     this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, checkout, plan, notifSetting)
-    ROUTER.push('/templates')
+    ROUTER.push('/marketplace')
   },
   setGoogleCode(code, scope){
     localStorage.setItem('google_code', code)
@@ -311,8 +324,27 @@ export default {
         beforeSend: function() {}
       })
     }
+    this.echo.channel('paprint-call').listen('Call', (response) => {
+      let action = parseInt(response.user.action)
+      let sender = response.user.sender
+      let receiver = response.user.receiver
+      this.audio.senderUser = sender
+      this.audio.receiverUser = receiver
+      if(sender.id !== this.user.userID){
+        this.audio.receiverId = sender.id
+      }
+      if(action === 2 && receiver.id === this.user.userID){
+        this.triggerAudioCall(0, null)
+      } else if(action === 1 && receiver.id === this.user.userID){
+        this.triggerAudioCall(1, null)
+        this.startAudioCallTimer()
+      } else if(action === 0 && receiver.id === this.user.userID){
+        this.endAudioCallTimer()
+      }
+    })
     this.echo.channel('idfactory').listen('Message', (response) => {
-      if(parseInt(response.message.account_id) !== this.user.userID && response.message.status === 'support'){
+      console.log(response)
+      if(parseInt(response.message.account_id) !== this.user.userID && response.message.type === 'support'){
         this.playNotificationSound()
         if(this.support.messengerGroupId !== parseInt(response.message.messenger_group_id) && this.support.messengerGroupId !== null){
           this.support.badge++
@@ -325,7 +357,7 @@ export default {
             this.support.messages.push(response.message)
           }
         }
-      }else if(parseInt(response.message.account_id) !== this.user.userID && response.message.status !== 'support'){
+      }else if(parseInt(response.message.account_id) !== this.user.userID && response.message.type !== 'support'){
         this.playNotificationSound()
         if(this.messenger.messengerGroupId !== parseInt(response.message.messenger_group_id) && this.messenger.messengerGroupId !== null){
           this.messenger.badge++
@@ -340,5 +372,51 @@ export default {
         }
       }
     })
+  },
+  triggerAudioCall(params, receiver){
+    $('#audio-call').css({'display': 'block'})
+    let vue = new Vue()
+    this.audio.status = params
+    if (params === 2){
+      let parameter = {
+        receiver: receiver,
+        sender: this.user.userID,
+        action: 2
+      }
+      vue.APIRequest('audio_calls/send', parameter, (response) => {
+        //
+      })
+    } else {
+      this.playNotificationSound()
+    }
+  },
+  startAudioCallTimer(){
+    clearInterval(this.audio.timer)
+    this.audio.seconds = 0
+    this.audio.minutes = 0
+    this.audio.hours = 0
+    this.audio.timer = setInterval(() => {
+      this.audio.seconds++
+      if (this.audio.seconds === 60){
+        this.audio.seconds = 0
+        this.audio.minutes++
+      }
+      if (this.audio.minutes === 60){
+        this.audio.minutes = 0
+        this.audio.hours++
+      }
+      let s = this.audio.seconds.toString().padStart(2, '0')
+      let m = this.audio.minutes.toString().padStart(2, '0')
+      let h = this.audio.hours.toString().padStart(2, '0')
+      console.log('counting')
+      this.audio.timeDisplay = `${h}:${m}:${s}`
+    }, 1000)
+  },
+  endAudioCallTimer(){
+    clearInterval(this.audio.timer)
+    this.audio.seconds = 0
+    this.audio.minutes = 0
+    this.audio.hours = 0
+    $('#audio-call').css({'display': 'none'})
   }
 }

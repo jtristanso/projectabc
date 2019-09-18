@@ -6,8 +6,28 @@
       </span>
       <span class="description">
         <h4>
-          As a customer-first business, we need constant communication to ensure quality prints all the time. Always get in touch through the chat and comment feature.  
+          As a customer-first business, we need constant communication to ensure quality prints all the time. Always get in touch and easily connect with the printing partners to make orders, get customer support and find deals through the messenger and comment feature.
         </h4>
+      </span>
+      <span class="feature1">
+        <h4>
+          Get more with Chat Extensions
+        </h4>
+      </span>
+      <span class="descriptionFeature1">
+        <h5>
+          Search and find products right in your chatbox for faster enquiries and transactions. 
+        </h5>
+      </span>
+      <span class="feature2">
+        <h4>
+          Hop on an Audio Call
+        </h4>
+      </span>
+      <span class="descriptionFeature2">
+        <h5>
+          Too busy to chat? You can hop on our audio call to assist you swiftly.  
+        </h5>
       </span>
     </div>
     <div class="image">
@@ -19,7 +39,7 @@
 .cw-banner{
   width: 100%;
   float: left;
-  background: #22b173;
+  background: #ec3563;
   min-height: 150px;
   overflow-y: hidden;
 }
@@ -37,10 +57,28 @@
 .title h1{
   font-size: 40px;
 }
+.feature1 h4{
+  font-size: 1.5rem;
+}
+.feature2 h4{
+  font-size: 1.5rem;
+}
 .text .description{
   margin-top: 25px;
   width: 100%;
   float: left;
+  text-align: justify;
+}
+.text .feature1{
+  width: 100%;
+  float: left;
+  margin-top: 50px;
+  text-align: justify;
+}
+.text .feature2{
+  width: 100%;
+  float: left;
+  margin-top: 50px;
   text-align: justify;
 }
 .image{

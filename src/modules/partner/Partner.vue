@@ -6,16 +6,16 @@
         <i class="fa fa-user-circle-o" v-else></i>
       </div>
       <div class="partner-info">
-        <label><h5>{{item.name}}</h5></label>
+        <label class="item-name"><h5>{{item.name}}</h5></label>
         <label><i class="fas fa-map-marker-alt"></i>{{item.address}}</label>
         <label class="text-warning action-link" v-on:click="redirect('/messenger/' + item.account.username)"><i class="fas fa-envelope"></i>Send Message</label>
-        <label class="text-danger action-link"><i class="fas fa-store"></i>View Store</label>
+        <label class="text-danger action-link" v-on:click="redirect('/store/'+ item.code)"><i class="fas fa-store"></i>View Store</label>
       </div>
       <div class="partner-reviews">
-        <label class="input-group">
+<!--         <label class="input-group">
           <input type="text" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;" v-bind:id="'code' + item.id" class="form-control" v-model="item.code">
           <button class="btn btn-primary" @click="copy('code' + item.id)" style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;"><i class="fa fa-copy"></i></button>
-        </label>
+        </label> -->
         <label class="reviews">
           <span class="badge badge-warning">{{Math.floor(item.rating.avg)}}</span>
           <i v-bind:class="{'fas fa-star': item.rating.avg >= i, 'fa fa-star-o': item.rating.avg < i}" class="text-warning" v-for="i in 5"></i>
@@ -24,9 +24,9 @@
         <label>
           {{item.rating.size}} Reviews
         </label>
+        <button class="btn btn-primary" v-if="printingButton === true" @click="printMeHere()">I want to print here</button>
       </div>
     </div>
-
   </div>
 </template>
 <style scoped>
@@ -35,9 +35,7 @@
   float: left;
   min-height: 100px;
   overflow-y: hidden;
-  border-bottom: solid 1px #ddd;
-  border-right: solid 1px #ddd;
-  border-left: solid 1px #ddd;
+  border: solid 1px #ddd;
 }
 .partner-container{
   margin-bottom: 10px;
@@ -62,6 +60,7 @@
   padding-left: 10px;
 }
 .partner-info{
+  margin-top: 5px;
   width: 35%;
   float: left;
 }
@@ -77,6 +76,7 @@
 .partner-reviews{
   width: 50%;
   float: left;
+  margin-top: 5px;
 }
 .partner-reviews label{
   width: 95%;
@@ -85,6 +85,49 @@
 }
 .reviews i{
   padding-right: 5px;
+}
+@media (max-width: 991px){
+  .partner-info{
+    width: 100%;
+  }
+  .partner-reviews{
+    width: 100%;
+    padding-left: 10px;
+  }
+}
+@media only screen and (max-width: 400px){
+  .partner-profile{
+    width: 80%;
+    float: left;
+    /* text-align: center; */
+    margin-left: 33px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .partner-profile img{
+    width: 100%;
+    border-radius: 5px;
+  }
+  /* .item-name{
+    text-align: center;
+    padding-bottom: 10px;
+  } */
+  .partner-info{
+    width: 60%;
+  }
+  .partner-reviews{
+    width: 40%;
+    float: right;
+    margin-top: 25px;
+  }
+  .partner-reviews label{
+    width: 95%;
+    float: right;
+    margin-right: 5%;
+  }
+  .reviews i{
+    padding-right: 5px;
+  }
 }
 </style>
 <script>
@@ -101,7 +144,7 @@ export default {
       prevId: null
     }
   },
-  props: ['item', 'index'],
+  props: ['item', 'index', 'printingButton', 'selectedId'],
   methods: {
     makeActive(){
       this.$parent.makeActive(this.index)
@@ -114,6 +157,9 @@ export default {
       copyText.select()
       document.execCommand('copy')
       console.log(copyText.value)
+    },
+    printMeHere(){
+      this.$parent.updatePrinting(this.item.id)
     }
   }
 }

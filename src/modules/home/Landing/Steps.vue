@@ -1,14 +1,13 @@
 <template>
   <div class="cw-snetwork">
     <div class="text text-green">
-      <h1>Four easy steps to your printed ID</h1>
+      <h1>Three easy steps to your printed design</h1>
     </div>
     <div class="card-holder">
       <div class="card" v-for="item, index in data" v-if="data !== null">
         <img class="card-img-top" src="../../../assets/img/template.png" v-if="index === 0">
         <img class="card-img-top" src="../../../assets/img/entry.png" v-if="index === 1">
-        <img class="card-img-top" src="../../../assets/img/review.png" v-if="index === 2">
-        <img class="card-img-top" src="../../../assets/img/checkout.png" v-if="index === 3">
+        <img class="card-img-top" src="../../../assets/img/checkout.png" v-if="index === 2">
         <div class="card-body">
           <h5 class="card-title text-green">Step {{index + 1}}: {{item.title}}</h5>
           <p class="card-text">{{item.description}}</p>
@@ -65,9 +64,9 @@
   margin-right: 5%;
 }
 .card{
-  width: 24%;
+  width: 30%;
   float: left;
-  margin-right: 1%;
+  margin-right: 3%;
   margin-top: 50px;
   margin-bottom: 50px;
 }
@@ -104,10 +103,9 @@ export default {
   data(){
     return {
       data: [
-        {title: 'Create or Choose a Template', description: 'Create custom templates using our editor tool or choose from the ID templates gallery', image: '../../assets/img/banner.png'},
-        {title: 'Data Entry', description: 'All the information required for each ID you create will automatically be exported to the template. No need to go to the editor to edit each template. ', image: '../../../assets/img/banner.png'},
-        {title: 'Review', description: 'Once IDs are generated you may review them in the gallery section.', image: '../../../assets/img/banner.png'},
-        {title: 'Check Out and Print', description: 'When you are satisfied with your output, you can now proceed to checkout and print using your printer or from any of our partner printers near your locale.', image: '../../../assets/img/banner.png'}
+        {title: 'Create or Attach a Design', description: 'Create custom designs using our editor tool or choose from the marketplace for designs or attach your own design.', image: '../../assets/img/banner.png'},
+        {title: 'Finding a Printing Partner', description: 'When you are already satisfied with your design, you can now choose any of our printing partners near your locale. ', image: '../../../assets/img/banner.png'},
+        {title: 'Check Out', description: 'Once you are done choosing any of our printing partners, you can now proceed to checkout and choose whether it is for delivery or pickup.', image: '../../../assets/img/banner.png'}
       ]
     }
   },
